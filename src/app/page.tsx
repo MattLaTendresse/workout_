@@ -201,7 +201,7 @@ export default function Home() {
         ) : (
           <>
             <section className="mb-8">
-              <h2 className="text-xl font-semibold mb-2">Today's Workout</h2>
+              <h2 className="text-xl font-semibold mb-2">Today&apos;s Workout</h2>
               {workoutPlan.map((workout) => (
                 <div key={workout.id} className="mb-4 p-4 border rounded">
                   <h3 className="text-lg font-semibold">{workout.day}</h3>
