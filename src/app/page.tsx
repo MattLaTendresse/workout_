@@ -1,103 +1,260 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+
+interface Exercise {
+  id: number;
+  name: string;
+  sets: number;
+  reps: number;
+  weight?: number;
+}
+
+interface Workout {
+  id: number;
+  day: string;
+  exercises: Exercise[];
+}
+
+type WorkoutSplit = '3-day' | '4-day' | '5-day';
+
+const workoutPlans: Record<WorkoutSplit, Workout[]> = {
+  '3-day': [
+    {
+      id: 1,
+      day: 'Monday',
+      exercises: [
+        { id: 1, name: 'Squats', sets: 3, reps: 10 },
+        { id: 2, name: 'Bench Press', sets: 3, reps: 8 },
+        { id: 3, name: 'Deadlift', sets: 3, reps: 5 },
+      ],
+    },
+    {
+      id: 2,
+      day: 'Wednesday',
+      exercises: [
+        { id: 4, name: 'Overhead Press', sets: 3, reps: 8 },
+        { id: 5, name: 'Pull-ups', sets: 3, reps: 10 },
+        { id: 6, name: 'Barbell Rows', sets: 3, reps: 8 },
+      ],
+    },
+    {
+      id: 3,
+      day: 'Friday',
+      exercises: [
+        { id: 7, name: 'Lunges', sets: 3, reps: 12 },
+        { id: 8, name: 'Bicep Curls', sets: 3, reps: 12 },
+        { id: 9, name: 'Tricep Dips', sets: 3, reps: 12 },
+      ],
+    },
+  ],
+  '4-day': [
+    {
+      id: 1,
+      day: 'Monday',
+      exercises: [
+        { id: 1, name: 'Squats', sets: 4, reps: 8 },
+        { id: 2, name: 'Leg Press', sets: 3, reps: 12 },
+        { id: 3, name: 'Leg Curls', sets: 3, reps: 12 },
+      ],
+    },
+    {
+      id: 2,
+      day: 'Tuesday',
+      exercises: [
+        { id: 4, name: 'Bench Press', sets: 4, reps: 8 },
+        { id: 5, name: 'Incline Dumbbell Press', sets: 3, reps: 10 },
+        { id: 6, name: 'Chest Flyes', sets: 3, reps: 12 },
+      ],
+    },
+    {
+      id: 3,
+      day: 'Thursday',
+      exercises: [
+        { id: 7, name: 'Deadlift', sets: 4, reps: 5 },
+        { id: 8, name: 'Pull-ups', sets: 3, reps: 10 },
+        { id: 9, name: 'Barbell Rows', sets: 3, reps: 8 },
+      ],
+    },
+    {
+      id: 4,
+      day: 'Friday',
+      exercises: [
+        { id: 10, name: 'Overhead Press', sets: 4, reps: 8 },
+        { id: 11, name: 'Lateral Raises', sets: 3, reps: 12 },
+        { id: 12, name: 'Face Pulls', sets: 3, reps: 15 },
+      ],
+    },
+  ],
+  '5-day': [
+    {
+      id: 1,
+      day: 'Monday',
+      exercises: [
+        { id: 1, name: 'Squats', sets: 5, reps: 5 },
+        { id: 2, name: 'Leg Press', sets: 4, reps: 10 },
+        { id: 3, name: 'Calf Raises', sets: 4, reps: 15 },
+      ],
+    },
+    {
+      id: 2,
+      day: 'Tuesday',
+      exercises: [
+        { id: 4, name: 'Bench Press', sets: 5, reps: 5 },
+        { id: 5, name: 'Dumbbell Flyes', sets: 3, reps: 12 },
+        { id: 6, name: 'Push-ups', sets: 3, reps: 15 },
+      ],
+    },
+    {
+      id: 3,
+      day: 'Wednesday',
+      exercises: [
+        { id: 7, name: 'Deadlift', sets: 5, reps: 3 },
+        { id: 8, name: 'Lat Pulldowns', sets: 4, reps: 10 },
+        { id: 9, name: 'Seated Rows', sets: 4, reps: 10 },
+      ],
+    },
+    {
+      id: 4,
+      day: 'Thursday',
+      exercises: [
+        { id: 10, name: 'Overhead Press', sets: 5, reps: 5 },
+        { id: 11, name: 'Arnold Press', sets: 3, reps: 12 },
+        { id: 12, name: 'Shrugs', sets: 3, reps: 15 },
+      ],
+    },
+    {
+      id: 5,
+      day: 'Friday',
+      exercises: [
+        { id: 13, name: 'Barbell Curls', sets: 4, reps: 10 },
+        { id: 14, name: 'Tricep Pushdowns', sets: 4, reps: 10 },
+        { id: 15, name: 'Hammer Curls', sets: 3, reps: 12 },
+      ],
+    },
+  ],
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [selectedSplit, setSelectedSplit] = useState<WorkoutSplit | null>(null);
+  const [workoutPlan, setWorkoutPlan] = useState<Workout[]>([]);
+  const [trackedWorkouts, setTrackedWorkouts] = useState<Workout[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  const handleSplitSelection = (split: WorkoutSplit) => {
+    setSelectedSplit(split);
+    setWorkoutPlan(workoutPlans[split]);
+  };
+
+  const handleWeightChange = (workoutId: number, exerciseId: number, weight: number) => {
+    const updatedWorkoutPlan = workoutPlan.map((workout) => {
+      if (workout.id === workoutId) {
+        const updatedExercises = workout.exercises.map((exercise) => {
+          if (exercise.id === exerciseId) {
+            return { ...exercise, weight };
+          }
+          return exercise;
+        });
+        return { ...workout, exercises: updatedExercises };
+      }
+      return workout;
+    });
+    setWorkoutPlan(updatedWorkoutPlan);
+  };
+
+  const handleTrackWorkout = (workoutId: number) => {
+    const workoutToTrack = workoutPlan.find((workout) => workout.id === workoutId);
+    if (workoutToTrack) {
+      setTrackedWorkouts([...trackedWorkouts, workoutToTrack]);
+    }
+  };
+
+  return (
+    <div className="container mx-auto p-4">
+      <header className="text-center text-2xl font-bold mb-4">
+        <h1>Workout Tracker</h1>
+      </header>
+      <main>
+        {!selectedSplit ? (
+          <section className="text-center">
+            <h2 className="text-xl font-semibold mb-4">Choose Your Workout Split</h2>
+            <div className="flex justify-center gap-4">
+              <button
+                className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg"
+                onClick={() => handleSplitSelection('3-day')}
+              >
+                3-Day Split
+              </button>
+              <button
+                className="bg-green-500 text-white px-6 py-3 rounded-lg text-lg"
+                onClick={() => handleSplitSelection('4-day')}
+              >
+                4-Day Split
+              </button>
+              <button
+                className="bg-red-500 text-white px-6 py-3 rounded-lg text-lg"
+                onClick={() => handleSplitSelection('5-day')}
+              >
+                5-Day Split
+              </button>
+            </div>
+          </section>
+        ) : (
+          <>
+            <section className="mb-8">
+              <h2 className="text-xl font-semibold mb-2">Today's Workout</h2>
+              {workoutPlan.map((workout) => (
+                <div key={workout.id} className="mb-4 p-4 border rounded">
+                  <h3 className="text-lg font-semibold">{workout.day}</h3>
+                  <ul>
+                    {workout.exercises.map((exercise) => (
+                      <li key={exercise.id} className="flex justify-between items-center mb-2">
+                        <span>
+                          {exercise.name}: {exercise.sets} sets of {exercise.reps} reps
+                        </span>
+                        <input
+                          type="number"
+                          placeholder="Weight"
+                          className="p-1 border rounded w-24"
+                          onChange={(e) =>
+                            handleWeightChange(workout.id, exercise.id, parseInt(e.target.value))
+                          }
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+                    onClick={() => handleTrackWorkout(workout.id)}
+                  >
+                    Track Workout
+                  </button>
+                </div>
+              ))}
+            </section>
+            <section>
+              <h2 className="text-xl font-semibold mb-2">Progress</h2>
+              {trackedWorkouts.length > 0 ? (
+                <ul>
+                  {trackedWorkouts.map((workout) => (
+                    <li key={workout.id} className="mb-2 p-2 border rounded">
+                      <h3 className="font-semibold">{workout.day}</h3>
+                      <ul>
+                        {workout.exercises.map((exercise) => (
+                          <li key={exercise.id}>
+                            {exercise.name}: {exercise.weight || 'N/A'} lbs
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No workouts tracked yet.</p>
+              )}
+            </section>
+          </>
+        )}
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
